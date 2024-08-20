@@ -60,7 +60,7 @@ jobs:
           git push --force --set-upstream origin pre-commit-autoupdate
 
           title="pre-commit autoupdate"
-          body='```${{steps.autoupdate.outputs.log}}'
+          body="```\n$ pre-commit autoupdate\n${{steps.autoupdate.outputs.log}}\n```"
           pr_number=$(gh pr list -S "pre-commit autoupdate" --json number --jq '.[0].number')
 
           if [[ -z $pr_number ]]; then
