@@ -98,10 +98,16 @@ class GrpcClient:
             self._channel
         )
 
-    def make_request(self, text: str, model_id: str = "flan-t5-small"):
+    def make_request(
+        self,
+        text: str,
+        model_id: str = "flan-t5-small",
+        params: dict | None = None,
+    ):
         request = generation_pb2_grpc.generation__pb2.BatchedGenerationRequest(
             model_id=model_id,
             requests=[generation_pb2_grpc.generation__pb2.GenerationRequest(text=text)],
+            params=params,
         )
         result = self.generation_service_stub.Generate(request=request)
         print(result)
@@ -241,4 +247,8 @@ if __name__ == "__main__":
     client.make_request(
         text,
         model_id="flan-t5-xl",
+        params={
+            "method": "GREEDY",
+            "sampling": {"seed": 1037},
+        },
     )
